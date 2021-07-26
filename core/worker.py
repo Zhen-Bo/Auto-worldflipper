@@ -55,6 +55,18 @@ class worker():
         pos = np.multiply(self.screen_muti, pos)
         self.device.shell("input tap {} {}".format(pos[0], pos[1]))
 
+    def swipe(self, pos1, pos2, delay=1000):
+        """
+        #滑動
+        start 為起始點
+        end 為終點
+        delay為滑動用時(單位:ms)
+        """
+        pos1 = np.multiply(self.screen_muti, pos1)
+        pos2 = np.multiply(self.screen_muti, pos2)
+        self.device.shell(
+            "input swipe {} {} {} {} {}".format(pos1[0], pos1[1], pos2[0], pos2[1], delay))
+
     def compare(self, templates, crop=None, cap=True, debug=False):
         """
         # 比較截圖與模板圖\n
@@ -80,6 +92,11 @@ class worker():
         coordinates 是辨識時是否要持續觸碰特定一座標\n
         tap 為辨識成功時是否點擊該目標\n
         """
+        if isinstance(img, str):
+            # 防呆誤傳字串
+            temp = list()
+            temp.append(img)
+            img = temp
         templates = dict()
         for name in img:
             templates[name] = byte_to_img(name)
@@ -121,7 +138,7 @@ class worker():
 
     def enter_room(self, room_number):
         """
-        隊員進入房間並準備開始
+        隊員進入房間並準備開始\n
         room_number 為房號
         """
         while self.finish:
@@ -162,3 +179,33 @@ class worker():
         time.sleep(1)
         self.standby(["leave"], coordinates=[210, 480])
         self.finish = False
+
+    def goto_boss(self, boss, level):
+        """
+        返回共鬥啟動介面\n
+        boss 為要開啟的共鬥王
+        level 為等級
+        """
+        self.standby(["menu"], tap=False)
+        self.tap([0, 0])
+        self.standby(["ok"])
+        self.standby(["goto_quit"])
+        self.standby(["boss"])
+        self.standby(["snake"], tap=False)
+        template = dict()
+        template[boss] = byte_to_img(boss)
+        pos = self.compare(template)
+        if pos == False:
+            start = (270, self.screenshot.shape[0]*0.75)
+            end = (270, self.screenshot.shape[0]*0.45)
+            self.swipe(start, end)
+            time.sleep(1)
+            pos = self.compare(template)
+            try:
+                self.tap(pos[1])
+            except:
+                raise "找不到BOSS"
+        else:
+            self.tap(pos[1])
+        self.standby(["info"], tap=False)
+        self.standby([level])
