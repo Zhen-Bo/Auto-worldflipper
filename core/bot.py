@@ -141,7 +141,7 @@ class auto():
                 break
             time.sleep(0.1)
 
-    def close_2P(self, main, ap):
+    def close_2p(self, main, ap):
         # TODO 待新增
         pass
 

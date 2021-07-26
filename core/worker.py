@@ -55,7 +55,7 @@ class worker():
         pos = np.multiply(self.screen_muti, pos)
         self.device.shell("input tap {} {}".format(pos[0], pos[1]))
 
-    def swipe(self, pos1, pos2, delay=1000):
+    def swipe(self, pos1, pos2, delay=500):
         """
         #滑動
         start 為起始點
