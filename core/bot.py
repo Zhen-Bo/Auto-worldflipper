@@ -109,7 +109,7 @@ class auto():
         self.info.ouput("[隊長]準備離開戰鬥")
         ap.standby(["yes"])
         ap.room_open = False
-        main_battle = threading.Thread(target=main.complete)
+        main_battle = threading.Thread(target=main.complete, daemon=True)
         main_battle.start()
         while True:
             if main.finish:
@@ -121,9 +121,9 @@ class auto():
         while main.finish or main2.finish:
             time.sleep(0.1)
         main_enter = threading.Thread(
-            target=main.enter_room, kwargs=dict(room_number=self.info.room_number))
+            target=main.enter_room, kwargs=dict(room_number=self.info.room_number), daemon=True)
         main2_enter = threading.Thread(
-            target=main2.enter_room, kwargs=dict(room_number=self.info.room_number))
+            target=main2.enter_room, kwargs=dict(room_number=self.info.room_number), daemon=True)
         main_enter.start()
         time.sleep(0.3)
         main2_enter.start()
@@ -137,8 +137,8 @@ class auto():
         self.info.ouput("[隊長]準備離開戰鬥")
         ap.standby(["yes"])
         ap.room_open = False
-        main_battle = threading.Thread(target=main.complete)
-        main2_battle = threading.Thread(target=main2.complete)
+        main_battle = threading.Thread(target=main.complete, daemon=True)
+        main2_battle = threading.Thread(target=main2.complete, daemon=True)
         main_battle.start()
         time.sleep(0.3)
         main2_battle.start()
@@ -173,11 +173,11 @@ class auto():
             "am start -n air.com.gamania.worldflipper/air.com.gamania.worldflipper.AppEntry")
         self.info.ouput("[隊長]開啟遊戲")
         new_room = threading.Thread(
-            target=ap.goto_boss, kwargs=dict(boss=self.boss, level=self.level))
+            target=ap.goto_boss, kwargs=dict(boss=self.boss, level=self.level), daemon=True)
         self.info.ouput("[隊長]回到開房頁面中...")
         new_room.start()
         ap.room_open = False
-        main_battle = threading.Thread(target=main.complete)
+        main_battle = threading.Thread(target=main.complete, daemon=True)
         main_battle.start()
         while True:
             if main.finish:
@@ -189,9 +189,9 @@ class auto():
         while main.finish or main2.finish:
             time.sleep(0.1)
         main_enter = threading.Thread(
-            target=main.enter_room, kwargs=dict(room_number=self.info.room_number))
+            target=main.enter_room, kwargs=dict(room_number=self.info.room_number), daemon=True)
         main2_enter = threading.Thread(
-            target=main2.enter_room, kwargs=dict(room_number=self.info.room_number))
+            target=main2.enter_room, kwargs=dict(room_number=self.info.room_number), daemon=True)
         main_enter.start()
         time.sleep(0.3)
         main2_enter.start()
@@ -209,12 +209,12 @@ class auto():
             "am start -n air.com.gamania.worldflipper/air.com.gamania.worldflipper.AppEntry")
         self.info.ouput("[隊長]開啟遊戲")
         new_room = threading.Thread(
-            target=ap.goto_boss, kwargs=dict(boss=self.boss, level=self.level))
+            target=ap.goto_boss, kwargs=dict(boss=self.boss, level=self.level), daemon=True)
         self.info.ouput("[隊長]回到開房頁面中...")
         new_room.start()
         ap.room_open = False
-        main_battle = threading.Thread(target=main.complete)
-        main2_battle = threading.Thread(target=main2.complete)
+        main_battle = threading.Thread(target=main.complete, daemon=True)
+        main2_battle = threading.Thread(target=main2.complete, daemon=True)
         main_battle.start()
         time.sleep(0.3)
         main2_battle.start()
