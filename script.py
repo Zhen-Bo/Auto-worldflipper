@@ -6,7 +6,7 @@ import requests
 import zipfile
 from tqdm import tqdm
 __author__ = "Paver(Zhen_Bo)"
-version = b'0.0.1'
+version = b'0.0.2'
 
 
 def app_path():
@@ -140,14 +140,16 @@ if __name__ == '__main__':
             ap = worker(dev[1], "隊長")
             bot = auto(boss=boss, level=level,
                        wait_people=args.wait_people, main=main, ap=ap)
-            bot.start(mode=mode)
+            bot.start(mode)
         else:
             main_1 = worker(dev[0], "隊員1")
             main_2 = worker(dev[1], "隊員2")
             ap = worker(dev[2], "隊長")
             bot = auto(boss=boss, level=level, wait_people=args.wait_people,
                        main=main_1, main2=main_2, ap=ap)
-            bot.start(mode=mode)
+            bot.start(mode)
     except KeyboardInterrupt:
         print("STOP")
         sys.exit()
+    except:
+        os.system("PAUSE")
