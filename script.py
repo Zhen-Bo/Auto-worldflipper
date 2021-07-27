@@ -121,4 +121,4 @@ if __name__ == '__main__':
             bot.start(version=version)
     except KeyboardInterrupt:
         print("STOP")
-        exit()
+        sys.exit()
