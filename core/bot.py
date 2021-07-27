@@ -90,13 +90,19 @@ class auto():
 
     def quit_2p(self, main, ap):
         self.info.display(end=True)
-        ap.open_room()
-        while main.finish:
-            time.sleep(0.1)
-        main.enter_room(self.info.room_number)
-        time.sleep(1)
         if self.wait_people == "True":
+            ap.open_room(recruit=True)
+            while main.finish:
+                time.sleep(0.1)
+            main.enter_room(self.info.room_number)
+            time.sleep(1)
             ap.wait_people()
+        else:
+            ap.open_room()
+            while main.finish:
+                time.sleep(0.1)
+            main.enter_room(self.info.room_number)
+            time.sleep(1)
         ap.standby(["start_battle"])
         self.info.ouput("[隊長]進入關卡")
         ap.standby(["quit_battle"], coordinates=[30, 60])
@@ -142,8 +148,40 @@ class auto():
             time.sleep(0.1)
 
     def close_2p(self, main, ap):
-        # TODO 待新增
-        pass
+        self.info.display(end=True)
+        if self.wait_people == "True":
+            ap.open_room(recruit=True)
+            while main.finish:
+                time.sleep(0.1)
+            main.enter_room(self.info.room_number)
+            time.sleep(1)
+            ap.wait_people()
+        else:
+            ap.open_room()
+            while main.finish:
+                time.sleep(0.1)
+            main.enter_room(self.info.room_number)
+            time.sleep(1)
+        ap.standby(["start_battle"])
+        self.info.ouput("[隊長]進入關卡")
+        ap.standby(["please_wait"], tap=False)
+        time.sleep(3)
+        ap.device.shell("am force-stop air.com.gamania.worldflipper")
+        time.sleep(0.3)
+        self.info.ouput("[隊長]關閉遊戲")
+        ap.device.shell(
+            "am start -n air.com.gamania.worldflipper/air.com.gamania.worldflipper.AppEntry")
+        self.info.ouput("[隊長]開啟遊戲")
+        new_room = threading.Thread(
+            target=ap.goto_boss, kwargs=dict(boss=self.boss, level=self.level))
+        self.info.ouput("[隊長]回到開房頁面中...")
+        new_room.start()
+        ap.room_open = False
+        main_battle = threading.Thread(target=main.complete)
+        main_battle.start()
+        while True:
+            if main.finish:
+                break
 
     def close_3p(self, main, main2, ap):
         self.info.display(end=True)

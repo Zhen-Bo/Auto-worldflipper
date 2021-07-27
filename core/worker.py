@@ -110,7 +110,7 @@ class worker():
         else:
             return pos
 
-    def open_room(self):
+    def open_room(self, recruit=False):
         """
         隊長開啟房間
         """
@@ -125,9 +125,10 @@ class worker():
         number = pyperclip.paste()
         self.info.set_room_number(number)
         self.room_open = True
-        self.standby(["share"])
-        time.sleep(1)
-        self.standby(["recruit"])
+        if recruit:
+            self.standby(["share"])
+            time.sleep(1)
+            self.standby(["recruit"])
 
     def wait_people(self):
         """等待第三個玩家進入房間"""
