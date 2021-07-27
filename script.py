@@ -1,13 +1,12 @@
-from logging import debug
 import os
-from core.bot import auto
-from core.worker import worker
 from ppadb.client import Client
 import sys
 import argparse
+import requests
+import zipfile
+from tqdm import tqdm
 __author__ = "Paver(Zhen_Bo)"
-
-os.system('cls')
+version = b'0.0.1'
 
 
 def app_path():
@@ -94,15 +93,45 @@ def get_info():
     return [battle_info[0], battle_info[1]]
 
 
+def check_update(version):
+    remote_version = requests.get(
+        "https://raw.githubusercontent.com/Zhen-Bo/Auto-worldflipper/main/version").content
+    if remote_version != version:
+        r = requests.get(
+            "https://www.dropbox.com/s/q1vil7zlz6unem2/Auto-worldflipper.zip?dl=1", stream=True, allow_redirects=True)
+        total_size = int(r.headers.get('content-length', 0))
+        progress_bar = tqdm(total=total_size, unit='ib', unit_scale=True)
+        with open(os.path.join(app_path(), "update.zip"), 'wb') as file:
+            for data in r.iter_content(1024):
+                progress_bar.update(len(data))
+                file.write(data)
+        progress_bar.close()
+        with zipfile.ZipFile(os.path.join(app_path(), "update.zip"), 'r') as zip_ref:
+            for file in tqdm(iterable=zip_ref.namelist(), total=len(zip_ref.namelist())):
+                try:
+                    zip_ref.extract(member=file, path=app_path())
+                except:
+                    print("{} denied".format(file))
+        return True
+    else:
+        return False
+
+
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     # 如果只有一個隊員的話是否招募並等待
     parser.add_argument("--wait_people", type=str, default="False")
     # quit=退出模式 close=重啟模式
-    parser.add_argument("--version", type=str, default="quit")
+    parser.add_argument("--mode", type=str, default="quit")
     args = parser.parse_args()
-    version = args.version
+    mode = args.mode
     os.system('cls')
+    if check_update(version):
+        os.system("Auto-worldflipper.exe")
+        sys.exit()
+    else:
+        from core.bot import auto
+        from core.worker import worker
     dev = setup()
     boss, level = get_info()
     try:
@@ -111,14 +140,14 @@ if __name__ == '__main__':
             ap = worker(dev[1], "隊長")
             bot = auto(boss=boss, level=level,
                        wait_people=args.wait_people, main=main, ap=ap)
-            bot.start(version=version)
+            bot.start(mode=mode)
         else:
             main_1 = worker(dev[0], "隊員1")
             main_2 = worker(dev[1], "隊員2")
             ap = worker(dev[2], "隊長")
             bot = auto(boss=boss, level=level, wait_people=args.wait_people,
                        main=main_1, main2=main_2, ap=ap)
-            bot.start(version=version)
+            bot.start(mode=mode)
     except KeyboardInterrupt:
         print("STOP")
         sys.exit()

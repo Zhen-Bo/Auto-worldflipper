@@ -68,8 +68,8 @@ class auto():
         else:
             self.people = 2
 
-    def start(self, version):
-        if version == "quit":
+    def start(self, mode):
+        if mode == "quit":
             if self.people == 2:
                 while True:
                     self.quit_2p(self.main, self.ap)
