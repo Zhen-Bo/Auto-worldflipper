@@ -95,7 +95,7 @@ def get_info():
 
 def check_update(version):
     remote_version = requests.get(
-        "https://raw.githubusercontent.com/Zhen-Bo/Auto-worldflipper/main/version").content
+        "https://www.dropbox.com/s/k36o8x8cr6cdhiv/version?dl=1").content
     if remote_version != version:
         r = requests.get(
             "https://www.dropbox.com/s/q1vil7zlz6unem2/Auto-worldflipper.zip?dl=1", stream=True, allow_redirects=True)
