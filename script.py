@@ -12,7 +12,7 @@ import requests
 from bs4 import BeautifulSoup
 import urllib.request
 __author__ = "Paver(Zhen_Bo)"
-local_version = "1.1"
+local_version = "1.2"
 
 
 def app_path():
@@ -161,7 +161,7 @@ if __name__ == '__main__':
     mode = args.mode
     os.system('cls')
     if os.path.exists(os.path.join(tempfile.gettempdir(), "_update_tmp/")):
-        time.sleep(1)
+        time.sleep(5)
         shutil.rmtree(os.path.join(tempfile.gettempdir(), "_update_tmp/"))
     check_update(local_version)
     from core.bot import auto
