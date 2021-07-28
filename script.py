@@ -99,15 +99,15 @@ def get_info():
 
 def check_update(version):
     print("檢查更新中...")
-    remote = requests.get(
+    remote_version = requests.get(
         "https://zhen-bo.github.io/Auto-worldflipper/").content.decode("utf-8")
-    remote_version = remote.split('/')[0]
+    remote_link = "https://github.com/Zhen-bo/Auto-worldflipper/releases/download/v{}/Auto-worldflipper.zip".format(
+        remote_version)
     if remote_version == version:
         print("當前為最新版: {}".format(local_version))
     elif remote_version != version:
         print("即將從 {} 版 升級成 {} 版".format(version, remote_version))
-        r = requests.get(remote.split(
-            '/')[1], stream=True, allow_redirects=True)
+        r = requests.get(remote_link, stream=True, allow_redirects=True)
         print("開始下載更新...")
         total_size = int(r.headers.get('content-length', 0))
         progress_bar = tqdm(total=total_size, unit='ib', unit_scale=True)
