@@ -10,7 +10,7 @@ import win32file
 import time
 import shutil
 __author__ = "Paver(Zhen_Bo)"
-local_version = "0.0.2"
+local_version = "1.0"
 
 
 def app_path():
