@@ -12,7 +12,7 @@ import requests
 from bs4 import BeautifulSoup
 import urllib.request
 __author__ = "Paver(Zhen_Bo)"
-local_version = "1.0"
+local_version = "1.1"
 
 
 def app_path():
