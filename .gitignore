@@ -3,6 +3,7 @@ ppadb/
 .vscode/
 template/
 /test.py
+/tempCodeRunnerFile.py
 模板圖轉文字/
 # Byte-compiled / optimized / DLL files
 __pycache__/
