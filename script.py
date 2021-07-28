@@ -102,7 +102,7 @@ def check_update(version):
     print("檢查更新中...")
     remote_version = requests.get(
         "https://zhen-bo.github.io/Auto-worldflipper/").text
-    soup = BeautifulSoup(remote_version)
+    soup = BeautifulSoup(remote_version, features="html.parser")
     remote_version = soup.find_all("p", {"class": "version"})
     remote_version = remote_version[0].text.split("\n")[0]
     remote_link = "https://github.com/Zhen-bo/Auto-worldflipper/releases/download/v{}/Auto-worldflipper.zip".format(
