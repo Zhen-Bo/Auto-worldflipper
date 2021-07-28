@@ -8,6 +8,7 @@ import tempfile
 import win32file
 import time
 import shutil
+import requests
 from bs4 import BeautifulSoup
 import urllib.request
 __author__ = "Paver(Zhen_Bo)"
