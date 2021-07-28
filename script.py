@@ -147,7 +147,8 @@ def check_update(version):
                         win32file.MoveFileEx(os.path.join(app_path(), file), os.path.join(
                             dir_path, file_name), win32file.MOVEFILE_REPLACE_EXISTING)
                     zip_ref.extract(member=file, path=app_path())
-        os.system(os.path.join(app_path(), "Auto-worldflipper.exe"))
+        os.system("start {}".format(os.path.join(
+            app_path(), "Auto-worldflipper.exe")))
         sys.exit()
 
 
@@ -161,7 +162,7 @@ if __name__ == '__main__':
     mode = args.mode
     os.system('cls')
     if os.path.exists(os.path.join(tempfile.gettempdir(), "_update_tmp/")):
-        time.sleep(5)
+        time.sleep(1)
         shutil.rmtree(os.path.join(tempfile.gettempdir(), "_update_tmp/"))
     check_update(local_version)
     from core.bot import auto
