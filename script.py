@@ -2,7 +2,6 @@ import os
 from ppadb.client import Client
 import sys
 import argparse
-import requests
 import zipfile
 from tqdm import tqdm
 import tempfile
@@ -10,6 +9,7 @@ import win32file
 import time
 import shutil
 from bs4 import BeautifulSoup
+import urllib.request
 __author__ = "Paver(Zhen_Bo)"
 local_version = "1.0"
 
@@ -100,8 +100,11 @@ def get_info():
 
 def check_update(version):
     print("檢查更新中...")
-    remote_version = requests.get(
-        "https://zhen-bo.github.io/Auto-worldflipper/").text
+    # remote_version = requests.get(
+    #     "https://zhen-bo.github.io/Auto-worldflipper/").text
+    remote_version = urllib.request.urlopen(
+        "https://zhen-bo.github.io/Auto-worldflipper/")
+    remote_version = remote_version.read().decode("utf8")
     soup = BeautifulSoup(remote_version, features="html.parser")
     remote_version = soup.find_all("p", {"class": "version"})
     remote_version = remote_version[0].text.split("\n")[0]
