@@ -62,10 +62,10 @@ def select_devices(devices, error=0):
 
 def get_info():
     battle_info = list()
-    boss = {"0": "大蛇", "1": "亞多明尼斯", "2": "白虎", "3": "詛咒艾基爾之長",
-            "4": "寄居蟹船長", "5": "遺跡魔像", "6": "不死族之王雷希塔洛", "7": "風之隱者"}
-    boss_code = {"0": "snake", "1": "robot", "2": "tiger", "3": "curse",
-                 "4": "crab", "5": "golem", "6": "undead", "7": "owl"}
+    boss = {"0": "大蛇", "1": "亞多明尼斯", "2": "白虎", "3": "Sec-5200L", "4": "詛咒艾基爾之長",
+            "5": "寄居蟹船長", "6": "怒潮海怪", "7": "遺跡魔像", "8": "不死族之王雷希塔洛", "9": "風之隱者"}
+    boss_code = {"0": "snake", "1": "robot", "2": "tiger", "3": "sec-5200L", "4": "curse",
+                 "5": "crab", "6": "squid", "7": "golem", "8": "undead", "9": "owl"}
     level = {"0": "超級", "1": "高級+", "2": "高級", "3": "中級", "4": "初級"}
     level_code = {"0": "level_super", "1": "level_high+",
                   "2": "level_high", "3": "level_middle", "4": "level_begin"}
