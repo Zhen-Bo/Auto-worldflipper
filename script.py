@@ -4,15 +4,12 @@ import sys
 import argparse
 import zipfile
 from tqdm import tqdm
-import tempfile
 import win32file
-import time
-import shutil
 import requests
 from bs4 import BeautifulSoup
 import urllib.request
 __author__ = "Paver(Zhen_Bo)"
-local_version = "1.2"
+local_version = "1.3"
 
 
 def app_path():
@@ -126,7 +123,7 @@ def check_update(version):
         progress_bar.close()
         print("下載完成")
         print("正在更新中...")
-        temp_dir = os.path.join(tempfile.gettempdir(), "_update_tmp/")
+        temp_dir = os.path.join(app_path(), "_update_tmp/")
         with zipfile.ZipFile(os.path.join(app_path(), "update.zip"), 'r') as zip_ref:
             if not os.path.exists(temp_dir):
                 os.mkdir(temp_dir)
@@ -147,8 +144,9 @@ def check_update(version):
                         win32file.MoveFileEx(os.path.join(app_path(), file), os.path.join(
                             dir_path, file_name), win32file.MOVEFILE_REPLACE_EXISTING)
                     zip_ref.extract(member=file, path=app_path())
-        os.system("start {}".format(os.path.join(
-            app_path(), "Auto-worldflipper.exe")))
+        #os.system("start {}".format(os.path.join(app_path(), "Auto-worldflipper.exe")))
+        os.system("start {}".format(
+            "choice /C Y /N /D Y /T 1 & Auto-worldflipper.exe"))
         sys.exit()
 
 
@@ -161,9 +159,9 @@ if __name__ == '__main__':
     args = parser.parse_args()
     mode = args.mode
     os.system('cls')
-    if os.path.exists(os.path.join(tempfile.gettempdir(), "_update_tmp/")):
-        time.sleep(1)
-        shutil.rmtree(os.path.join(tempfile.gettempdir(), "_update_tmp/"))
+    if os.path.exists(os.path.join(app_path(), "_update_tmp/")):
+        os.system('choice /C Y /N /D Y /T 1 & rmdir /s {}'.format(
+            os.path.join(app_path(), "_update_tmp/")))
     check_update(local_version)
     from core.bot import auto
     from core.worker import worker
